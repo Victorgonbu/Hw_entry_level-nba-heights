@@ -10,7 +10,6 @@ import backgroundImage from './assets/imgs/background.jpg';
 const MainContainer = styled.div`
   width: 100vw;
   min-height: 100vh;
-  background-color: whitesmoke;
   border: 1px solid red;
   background-image: url(${backgroundImage});
   background-size: cover;
@@ -33,15 +32,35 @@ const MainContainer = styled.div`
 `;
 
 const SearchBar = styled.input`
-  border: 1px solid red;
+  border: 1px solid whitesmoke;
+  padding: .5em;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 `;
 
 const SearchButton = styled.button`
-  background-color: red;
+  color: #808080;
+  background-color: #fff;
+  border: 1px solid whitesmoke;
+  font-weight: 600;
+  font-size:  1em;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+
+  &:hover span{
+    color: #111;
+  }
 `
 
 const SearchContainer = styled.div`
-padding-top: 3em;
+margin-top: 3em;
+display: flex;
+`;
+
+const Span = styled.span`
+  margin-left: 5px;
+  font-size:  1.2em;
 `;
 
 
@@ -93,7 +112,7 @@ function App() {
         <SearchBar value={input} type="number" onChange={handleChange}/>
         <SearchButton type="button" onClick={handleButtonClick} >
           <FontAwesomeIcon icon="search"/>
-          <span>Search</span>
+          <Span>Search</Span>
         </SearchButton>
       </SearchContainer>
       {
