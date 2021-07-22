@@ -128,7 +128,7 @@ function App() {
       if(foundMatches){
         setSearchMessage(`Result for pairs of players whose height adds up to ${input} inches`);
       }else {
-        setSearchMessage(`Sorry, there were no matches for ${input} inches pair of players.`);
+        setSearchMessage(`Sorry, there were no matches for ${input || 0} inches pair of players.`);
       }
     }
   };
