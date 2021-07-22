@@ -1,10 +1,11 @@
 import Player from './Player';
+import {flex, pair} from '../css/App.module.css';
 
 const Pair = (props) => {
     const {list} = props;
     
     return(
-        <div className="pair">
+        <div className={`${pair} ${flex}`}>
             {
                 list.map((player, index)=> {
                     return <Player 

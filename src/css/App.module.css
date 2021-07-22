@@ -1,3 +1,50 @@
 .player {
-    color: #fff;
+    color: #000;
+    width: 50%;
+    background-color: #ececec;
+    align-items: center;
+    padding: .5em 0;
 }
+
+.prop h2 {
+    padding: 3px 0;
+}
+
+.playerIcon {
+    padding: 0 1em;
+    font-size: 2em;
+}
+
+.pairs {
+    position: relative;
+    box-sizing: border-box;
+    margin-top: 2em;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    top: 15vh;
+    transition: 100ms ease-in-out;
+    
+}
+
+
+.pair {
+    
+    border: 1px solid #ececec;
+    box-shadow: 1px 1px 5px #e2e2e2;
+    min-width: calc((100% - 36px)/4);
+    justify-content: space-between;
+    max-width: 25em;
+}
+
+.flex {
+    display: flex;
+}
+
+
+@media (max-width: 1366px) {
+    .pairs {
+      font-size: 13px;
+    }
+  }
+  
