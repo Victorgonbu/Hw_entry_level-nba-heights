@@ -26,13 +26,16 @@ const Player = (props) => {
         <div className={prop}>
           <h2>Height:</h2>
           <span>
-            {' '}
             {h_in}
+            ″
           </span>
-          ″/
-          <span>{h_meters}</span>
-          {' '}
-          m
+          /
+          <span>
+            {h_meters}
+            {' '}
+            m
+          </span>
+
         </div>
       </div>
     </div>

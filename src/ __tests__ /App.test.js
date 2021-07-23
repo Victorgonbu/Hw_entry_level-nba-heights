@@ -8,6 +8,7 @@ import 'whatwg-fetch';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import App from '../App';
+
 /* eslint-disable react/display-name */
 jest.mock('../components/Pairs', () => () => <div data-testid="pairs" />);
 
@@ -67,7 +68,6 @@ describe('App', () => {
       const searchButton = await screen.getByTestId('search-button');
       fireEvent.change(searchBox, { target: { value: 121 } });
       fireEvent.click(searchButton);
-     
 
       expect(await screen.queryByTestId('pairs')).toBeFalsy();
       expect(await screen.getByText('No matches found')).toBeInTheDocument();
