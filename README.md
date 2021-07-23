@@ -23,8 +23,8 @@ To get a local copy up and running follow these simple example steps.
 
 - Git clone https://github.com/Shaqri/Hw_entry_level-nba-heights.git
 - Move to the root directory in your command line
-- run `yarn install`
-- run `yarn start`
+- run `yarn install` to install all dependencies.
+- run `yarn start` to start the app in the localhost server.
 
 ### Usage
 
