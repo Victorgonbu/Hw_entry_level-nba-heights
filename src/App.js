@@ -81,10 +81,14 @@ function App() {
 
   useEffect(() => {
     async function fetchPlayers() {
-      const playersRequest = await axios.get('https://mach-eight.uc.r.appspot.com/');
-      let sortedList = playersRequest.data.values;
-      sortedList = sortedList.sort((a, b) => parseInt(a.h_in, 10) - parseInt(b.h_in, 10));
-      setPlayers(sortedList);
+      try {
+        const playersRequest = await axios.get('https://mach-eight.uc.r.appspot.com/');
+        let sortedList = playersRequest.data.values;
+        sortedList = sortedList.sort((a, b) => parseInt(a.h_in, 10) - parseInt(b.h_in, 10));
+        setPlayers(sortedList);
+      } catch (error) {
+        console.log(error);
+      }
     }
     if (!players) {
       fetchPlayers();
@@ -121,38 +125,45 @@ function App() {
       if (foundMatches) {
         setSearchMessage(`Result for pairs of players whose height adds up to ${input} inches`);
       } else {
-        setSearchMessage(`Sorry, there were no matches for ${input || 0} inches pair of players.`);
+        setSearchMessage('No matches found');
       }
     }
   };
 
   return (
-    <MainContainer>
-      <Title ref={titleRef}>NBA Player heights</Title>
-      <SearchContainer ref={searchRef}>
-        <SearchBar
-          onKeyPress={handleButtonClick}
-          placeholder="Input target height"
-          min={0}
-          value={input}
-          type="number"
-          onChange={handleChange}
-        />
-        <SearchButton type="button" onClick={handleButtonClick}>
-          <FontAwesomeIcon icon="search" />
-          <Span>Search</Span>
-        </SearchButton>
-      </SearchContainer>
+    <>
+      {
+        players
+        && (
+        <MainContainer data-testid="main-container">
+          <Title ref={titleRef}>NBA Player heights</Title>
+          <SearchContainer ref={searchRef}>
+            <SearchBar
+              onKeyPress={handleButtonClick}
+              placeholder="Input target height"
+              min={0}
+              value={input}
+              type="number"
+              onChange={handleChange}
+            />
+            <SearchButton data-testid="search-button" type="button" onClick={handleButtonClick}>
+              <FontAwesomeIcon icon="search" />
+              <Span>Search</Span>
+            </SearchButton>
+          </SearchContainer>
 
-      {
-        searchMessage
-          && <SearchMessage>{searchMessage}</SearchMessage>
+          {
+          searchMessage
+            && <SearchMessage>{searchMessage}</SearchMessage>
+        }
+          {
+          pairs.length > 0
+          && <Pairs list={pairs} />
+        }
+        </MainContainer>
+        )
       }
-      {
-        pairs.length > 0
-        && <Pairs list={pairs} />
-      }
-    </MainContainer>
+    </>
   );
 }
 
