@@ -15,7 +15,7 @@ This is a simple react app to search for pair of players whose height adds up to
 
 ## Live Demo
 
-coming soon...
+[live-link](https://nba-players-height.netlify.app/);
 
 ## Getting Started
 
