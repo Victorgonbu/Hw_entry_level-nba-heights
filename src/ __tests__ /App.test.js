@@ -8,7 +8,7 @@ import 'whatwg-fetch';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import App from '../App';
-
+/* eslint-disable react/display-name */
 jest.mock('../components/Pairs', () => () => <div data-testid="pairs" />);
 
 const server = setupServer(
@@ -36,9 +36,8 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('App', () => {
-
   it('Renders title and search container after successfully fetching nba players height API.', async () => {
-    render(<App/>);
+    render(<App />);
     await waitFor(() => screen.getByTestId('main-container'));
     const searchBox = await screen.getByPlaceholderText('Input target height');
     const searchButton = await screen.getByTestId('search-button');
@@ -46,33 +45,32 @@ describe('App', () => {
     expect(searchBox).toBeInTheDocument();
     expect(searchButton).toBeInTheDocument();
     expect(title).toBeInTheDocument();
-  })
+  });
 
   describe('Looks for pairs of NBA players whose heights adds up to inputted value.', () => {
+    it('Renders successful message and Pairs component if any matches are found.', async () => {
+      render(<App />);
+      await waitFor(() => screen.getByTestId('main-container'));
+      const searchBox = await screen.getByPlaceholderText('Input target height');
+      const searchButton = await screen.getByTestId('search-button');
+      fireEvent.change(searchBox, { target: { value: 120 } });
+      fireEvent.click(searchButton);
 
-    it('Renders successful message and Pairs component if any matches are found.', async ()=> {
-        render(<App />);
-        await waitFor(() => screen.getByTestId('main-container'));
-        const searchBox = await screen.getByPlaceholderText('Input target height');
-        const searchButton = await screen.getByTestId('search-button');
-        fireEvent.change(searchBox, { target: { value: 120 } });
-        fireEvent.click(searchButton);
-
-        expect(await screen.getByTestId('pairs')).toBeInTheDocument();
-        expect(await screen.getByText('Result for pairs of players whose height adds up to 120 inches')).toBeInTheDocument();
+      expect(await screen.getByTestId('pairs')).toBeInTheDocument();
+      expect(await screen.getByText('Result for pairs of players whose height adds up to 120 inches')).toBeInTheDocument();
     });
 
-    it('Renders unsuccessful message and does not render Pairs component if not matches are found.', async() => {
-        render(<App />);
-        await waitFor(() => screen.getByTestId('main-container'));
-        const searchBox = await screen.getByPlaceholderText('Input target height');
-        const searchButton = await screen.getByTestId('search-button');
-        fireEvent.change(searchBox, { target: { value: 121 } });
-        fireEvent.click(searchButton);
+    it('Renders unsuccessful message and does not render Pairs component if not matches are found.', async () => {
+      render(<App />);
+      await waitFor(() => screen.getByTestId('main-container'));
+      const searchBox = await screen.getByPlaceholderText('Input target height');
+      const searchButton = await screen.getByTestId('search-button');
+      fireEvent.change(searchBox, { target: { value: 121 } });
+      fireEvent.click(searchButton);
+     
 
-        expect(await screen.queryByTestId('pairs')).toBeFalsy();
-        expect(await screen.getByText('No matches found')).toBeInTheDocument();
-    })
-    
+      expect(await screen.queryByTestId('pairs')).toBeFalsy();
+      expect(await screen.getByText('No matches found')).toBeInTheDocument();
+    });
   });
 });

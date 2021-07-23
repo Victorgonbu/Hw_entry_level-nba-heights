@@ -86,8 +86,8 @@ function App() {
         let sortedList = playersRequest.data.values;
         sortedList = sortedList.sort((a, b) => parseInt(a.h_in, 10) - parseInt(b.h_in, 10));
         setPlayers(sortedList);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        // UNABLE TO FETCH API
       }
     }
     if (!players) {
