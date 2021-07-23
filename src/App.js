@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {useEffect, useState, useRef} from 'react';
-import Pairs from './components/Pairs';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Pairs from './components/Pairs';
 import './Icons';
-import './css/reset.css'
+import './css/reset.css';
 
 const MainContainer = styled.div`
  
@@ -48,7 +48,7 @@ const SearchButton = styled.button`
   &:hover span{
     color: #111;
   }
-`
+`;
 
 const SearchContainer = styled.div`
 position: relative;
@@ -71,7 +71,6 @@ const Span = styled.span`
   font-size:  1.2em;
 `;
 
-
 function App() {
   const [players, setPlayers] = useState(null);
   const [input, setInput] = useState('');
@@ -83,51 +82,45 @@ function App() {
   useEffect(() => {
     async function fetchPlayers() {
       const playersRequest = await axios.get('https://mach-eight.uc.r.appspot.com/');
-      const sortedPlayersList = playersRequest.data.values.sort((a, b) => {
-        return  parseInt(a.h_in ,10) - parseInt(b.h_in ,10);
-      })
-      setPlayers(sortedPlayersList);
+      let sortedList = playersRequest.data.values;
+      sortedList = sortedList.sort((a, b) => parseInt(a.h_in, 10) - parseInt(b.h_in, 10));
+      setPlayers(sortedList);
     }
-    if(!players) {
+    if (!players) {
       fetchPlayers();
     }
-    
-  },[players]);
-
+  }, [players]);
 
   const handleChange = (e) => {
-    let currentInput = parseInt(e.target.value, 10)
+    const currentInput = parseInt(e.target.value, 10);
     setInput(currentInput);
   };
 
   const fadeUp = () => {
     searchRef.current.classList.add('active');
     titleRef.current.classList.add('active');
-  }
+  };
 
   const handleButtonClick = (e) => {
-    if((e.type) === 'click' || (e.key) === 'Enter') {
+    if ((e.type) === 'click' || (e.key) === 'Enter') {
       let foundMatches = false;
       setPairs([]);
       fadeUp();
       const hash = {};
-      for(let i in players) {
-      
-        let matchPlayerHeight = input - parseInt(players[i].h_in, 10);
-  
-        if(matchPlayerHeight in hash) {
+      for (let i = 0; i < players.length; i += 1) {
+        const matchPlayerHeight = input - parseInt(players[i].h_in, 10);
+
+        if (matchPlayerHeight in hash) {
           foundMatches = true;
-          setPairs((state) => {
-            return [...state, [hash[matchPlayerHeight], players[i]]]
-          });
+          setPairs((state) => [...state, [hash[matchPlayerHeight], players[i]]]);
         }
-       
+
         hash[parseInt(players[i].h_in, 10)] = players[i];
       }
-  
-      if(foundMatches){
+
+      if (foundMatches) {
         setSearchMessage(`Result for pairs of players whose height adds up to ${input} inches`);
-      }else {
+      } else {
         setSearchMessage(`Sorry, there were no matches for ${input || 0} inches pair of players.`);
       }
     }
@@ -137,26 +130,27 @@ function App() {
     <MainContainer>
       <Title ref={titleRef}>NBA Player heights</Title>
       <SearchContainer ref={searchRef}>
-        <SearchBar 
-        onKeyPress={handleButtonClick} 
-        placeholder="Input target height" 
-        min={0} 
-        value={input} 
-        type="number" 
-        onChange={handleChange}/>
-        <SearchButton type="button" onClick={handleButtonClick} >
-          <FontAwesomeIcon icon="search"/>
+        <SearchBar
+          onKeyPress={handleButtonClick}
+          placeholder="Input target height"
+          min={0}
+          value={input}
+          type="number"
+          onChange={handleChange}
+        />
+        <SearchButton type="button" onClick={handleButtonClick}>
+          <FontAwesomeIcon icon="search" />
           <Span>Search</Span>
         </SearchButton>
       </SearchContainer>
 
       {
-        searchMessage && 
-          <SearchMessage>{searchMessage}</SearchMessage>
+        searchMessage
+          && <SearchMessage>{searchMessage}</SearchMessage>
       }
       {
-        pairs.length >  0 && 
-        <Pairs list={pairs}/>
+        pairs.length > 0
+        && <Pairs list={pairs} />
       }
     </MainContainer>
   );
